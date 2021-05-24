@@ -1,0 +1,15 @@
+{
+  "name": "niceidea",
+  "version": "1.0.0",
+  "description": "Quick random idea generator for musicians!",
+  "main": "niceidea.js",
+  "dependencies": {
+    "inquirer": "^8.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wiwi Kuan",
+  "license": "GPL-3.0-or-later"
+}
