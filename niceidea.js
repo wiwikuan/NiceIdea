@@ -1,7 +1,3 @@
-/**
- * Checkbox list examples
- */
-
 'use strict';
 const inquirer = require('inquirer');
 
