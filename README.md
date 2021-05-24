@@ -22,8 +22,6 @@ Quick random idea generator for musicians!
 
 https://drive.google.com/drive/folders/1O1IRC5U4AvO8Y-lMudvWtme44Y2NzXeD?usp=sharing
 
----
-
 ### 原始碼
 
 下載 niceidea.js 與 package.json 到同一資料夾，然後在那個資料夾：
