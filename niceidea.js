@@ -9,86 +9,84 @@ function mainMenu() {
     name: 'menu',
     pageSize: 12,
     choices: [{
-        name: "給我一些隨便的【音】",
-        value: "randomNotes"
-      },
-      {
-        name: "給我一些隨便的【和弦】",
-        value: "randomChords"
-      },
-      {
-        name: "給我一個隨便的【大小調/調號】",
-        value: "randomKeys"
-      },
-      {
-        name: "給我一些隨便的【調式】",
-        value: "randomModes"
-      },
-      {
-        name: "給我一個隨便的【拍號】",
-        value: "randomMeter"
-      },
-      {
-        name: "給我一個隨便的【速度】",
-        value: "randomTempo"
-      },
-      {
-        name: "給我一個隨便的【歌名】",
-        value: "randomTitle"
-      },
-      {
-        name: "給我一個隨便的【點子】",
-        value: "idea"
-      },
-      {
-        name: "結束",
-        value: "quit"
-      }
+      name: "給我一些隨便的【音】",
+      value: "randomNotes"
+    },
+    {
+      name: "給我一些隨便的【和弦】",
+      value: "randomChords"
+    },
+    {
+      name: "給我一個隨便的【大小調/調號】",
+      value: "randomKeys"
+    },
+    {
+      name: "給我一些隨便的【調式】",
+      value: "randomModes"
+    },
+    {
+      name: "給我一個隨便的【拍號】",
+      value: "randomMeter"
+    },
+    {
+      name: "給我一個隨便的【速度】",
+      value: "randomTempo"
+    },
+    {
+      name: "給我一個隨便的【歌名】",
+      value: "randomTitle"
+    },
+    {
+      name: "給我一個隨便的【點子】",
+      value: "idea"
+    },
+    {
+      name: "結束",
+      value: "quit"
+    }
     ],
-  }, ]
+  },]
 
   inquirer.prompt(questions).then((answers) => {
-    // console.log(answers["menu"]);
     switch (answers["menu"]) {
       case "randomNotes":
-        randomNotes();
-        break;
+        return randomNotes();
+
       case "randomChords":
-        randomChords();
-        break;
+        return randomChords();
+
       case "randomKeys":
-        randomKeys();
-        break;
+        return randomKeys();
+
       case "randomModes":
-        randomModes();
-        break;
+        return randomModes();
+
       case "randomMeter":
-        randomMeter();
-        break;
+        return randomMeter();
+
       case "randomTempo":
-        randomTempo();
-        break;
+        return randomTempo();
+
       case "randomTitle":
-        randomTitle();
-        break;
+        return randomTitle();
+
       case "idea":
-        idea();
-        break;
+        return idea();
+
       case "quit":
         console.log("=== 掰掰！ ===");
         process.exit(0);
-        break;
+
       default:
         console.log("=== 掰掰！ ===");
         process.exit(0);
-        break;
     }
   });
 
 }
 
+/** 回到主選單或結束程式。 */
 function exitOrNot() {
-  // 要不要結束？
   const questions = [{
     type: 'confirm',
     message: '還要再玩一次嗎？',
@@ -97,51 +95,68 @@ function exitOrNot() {
   }]
 
   inquirer.prompt(questions).then((answers) => {
-    // console.log(answers["exit"]);
     if (answers["exit"]) {
-      mainMenu();
-    } else {
-      console.log("=== 掰掰！記得多到 NiceChord.com 學音樂唷～ ===");
-      process.exit(0);
+      return mainMenu();
     }
+
+    console.log("=== 掰掰！記得多到 NiceChord.com 學音樂唷～ ===");
+    process.exit(0);
   });
 
 }
 
+/** 產生隨機音符。 */
 function randomNotes() {
 
   const questions = [{
-      type: 'checkbox',
-      message: '[隨機音符產生器] 選擇要抽的音：',
-      name: 'notes',
-      pageSize: 12,
-      choices: ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
-      default: ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
-      validate(answer) {
-        if (answer.length < 1) {
-          return '至少要選一個音唷！';
-        }
-        return true;
-      },
+    type: 'checkbox',
+    message: '[隨機音符產生器] 選擇要抽的音：',
+    name: 'notes',
+    pageSize: 12,
+    choices: ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
+    default: ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
+    validate(answer) {
+      if (answer.length < 1) {
+        return '至少要選一個音唷！';
+      }
+      return true;
     },
-    {
-      type: 'number',
-      message: '要產生幾個音？（1-100）',
-      name: 'howmany',
-      default: 8,
-    },
+  },
+  {
+    type: 'number',
+    message: '要產生幾個音？（1-100）',
+    name: 'howmany',
+    default: 8,
+    validate(answer) {
+      if (isNaN(answer)) {
+        return '數量需要輸入數字喔！';
+      }
+
+      if (answer < 1) {
+        return '數量需要大於 0 喔！';
+      }
+
+      if (answer > 100) {
+        return '數量需要小於 100 喔！';
+      }
+
+      return true;
+    }
+  },
   ]
 
   inquirer.prompt(questions).then((answers) => {
-    // console.log(answers["notes"][0]);
-    // console.log(answers["howmany"]);
-    let choices = answers["notes"];
-    let result = [];
-    let howmany = answers["howmany"];
-    for (let i = 0; i < howmany; i++) {
-      result.push(choices[Math.floor(Math.random() * choices.length)])
-    }
-    console.log(result);
+    /**
+     * 選擇的音符列表。
+     * @type {string[]}
+     */
+    const choices = answers["notes"];
+    const howmany = answers["howmany"];
+
+    const randomReault = [...Array(howmany)]
+      .map(_ => choices[Math.random() * choices.length | 0]);
+
+    console.log(randomReault);
     exitOrNot();
   });
 
@@ -164,27 +179,34 @@ function randomChords() {
       if (answer.length < 1) {
         return '至少要選一種喔！';
       }
+
       return true;
     },
   },
   {
     type: 'number',
-    message: '要產生幾個和弦？（1-100，輸入 0 來取消）',
-    name: 'limit',
+    message: '要產生幾個和弦？（1-100）',
+    name: 'howmany',
     default: 8,
     validate(answer) {
-      if (isNaN(answer)) return '數量需要輸入數字喔！';
-      if (answer < 0) return '數量不能是負數喔！';
-      if (answer > 100) return '數量需要小於 100 喔！';
+      if (isNaN(answer)) {
+        return '數量需要輸入數字喔！';
+      }
+
+      if (answer < 1) {
+        return '數量需要大於 0 喔！';
+      }
+
+      if (answer > 100) {
+        return '數量需要小於 100 喔！';
+      }
+
       return true;
     }
   },
   ]
 
   inquirer.prompt(questions).then((answers) => {
-    // console.log(answers["notes"][0]);
-    // console.log(answers["howmany"]);
-
     /**
      * 使用者選的和弦類型。
      * @type {string[]}
@@ -194,9 +216,7 @@ function randomChords() {
      * 產生和弦的數量上限。
      * @type {number}
      */
-    const limit = answers["limit"];
-
-    if (limit === 0) return exitOrNot();
+    const howmany = answers["howmany"];
 
     // 所有和弦名單
     const chordsList = {
@@ -218,7 +238,7 @@ function randomChords() {
       ? (result = result.concat(chordsList[chord]), result)
       : result);
 
-    const randomReault = [...Array(limit)]
+    const randomReault = [...Array(howmany)]
       .map(_ => choices[Math.random() * choices.length | 0]);
 
     console.log(randomReault);
@@ -227,6 +247,7 @@ function randomChords() {
 
 }
 
+/** 產生隨機調式 */
 function randomModes() {
 
   const questions = [{
@@ -234,26 +255,42 @@ function randomModes() {
     message: '要產生幾個調式？（1-100）',
     name: 'howmany',
     default: 4,
-  }, ]
+    validate(answer) {
+      if (isNaN(answer)) {
+        return '數量需要輸入數字喔！';
+      }
+
+      if (answer < 1) {
+        return '數量需要大於 0 喔！';
+      }
+
+      if (answer > 100) {
+        return '數量需要小於 100 喔！';
+      }
+
+      return true;
+    }
+  },]
 
   inquirer.prompt(questions).then((answers) => {
-    let roots = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
-    let modes = ["Ionian", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Aeolian", "Locrian"]
-    let result = [];
+    const howmany = answers["howmany"];
 
+    const roots = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
+    const modes = ["Ionian", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Aeolian", "Locrian"];
 
-    let howmany = answers["howmany"];
-    for (let i = 0; i < howmany; i++) {
-      result.push(roots[Math.floor(Math.random() * roots.length)] + " " + modes[Math.floor(Math.random() * modes.length)])
-    }
-    console.log(result);
+    const getRandomMode = () =>
+      roots[Math.random() * roots.length | 0] + " " + modes[Math.random() * modes.length | 0];
+
+    const randomResult = [...Array(howmany)].map(getRandomMode);
+
+    console.log(randomResult);
     exitOrNot();
   });
 
 }
 
 function randomKeys() {
-  let tips = [
+  const tips = [
     "C 大調 / A 小調 （沒有升降記號）",
     "G 大調 / E 小調 （1 個升記號）",
     "D 大調 / B 小調 （2 個升記號）",
@@ -270,23 +307,28 @@ function randomKeys() {
     "Gb 大調 / Eb 小調 （6 個降記號）",
     "Cb 大調 / Ab 小調 （7 個降記號）",
   ]
-  console.log("\n 🎹 " + tips[Math.floor(Math.random() * tips.length)] + "\n");
+  console.log("\n 🎹 " + tips[Math.random() * tips.length | 0] + "\n");
   exitOrNot();
+
 }
 
 function randomMeter() {
   let tips = [
     "2/4", "3/4", "4/4", "5/4", "6/4", "7/4", "3/8", "5/8", "6/8", "7/8", "9/8", "11/8", "12/8", "13/8", "15/8", "2/2", "3/2"
   ]
-  console.log("\n 🎼 " + tips[Math.floor(Math.random() * tips.length)] + " 拍\n");
+  console.log("\n 🎼 " + tips[Math.random() * tips.length | 0] + " 拍\n");
   exitOrNot();
+
 }
 
+/** 產生隨機速度 */
 function randomTempo() {
-  console.log("\n 🎲 " + Math.floor((Math.random() * 210) + 30) + " BPM\n");
+  console.log("\n 🎲 " + (Math.random() * 210) + 30 | 0 + " BPM\n");
   exitOrNot();
+
 }
 
+/** 產生隨機標題 */
 function randomTitle() {
 
   let noun = ['愛情',
@@ -768,14 +810,15 @@ function randomTitle() {
 
   ]
 
-  let result = around[Math.floor(Math.random() * around.length)];
-  result = result.replace("ooo", noun[Math.floor(Math.random() * noun.length)]);
-  result = result.replace("xxx", noun[Math.floor(Math.random() * noun.length)]);
+  let result = around[Math.random() * noun.length | 0]
+    .replace(/(ooo|xxx)/g, noun[Math.random() * noun.length | 0]);
+
   console.log("\n 🤔 " + result + "\n");
   exitOrNot();
 
 }
 
+/** 產生隨機想法 */
 function idea() {
   let tips = [
     "寫一首很圓滑（Legato）的曲子吧！",
@@ -901,11 +944,11 @@ function idea() {
     "連續混音太久耳朵會疲勞、影響判斷。一旦開始混音就儘量迅速完成吧！",
     "如果你說不出自己一年前作品的缺點，那麼你要反省一下這一年是不是有學到東西。"
   ]
-  console.log("\n 💡 " + tips[Math.floor(Math.random() * tips.length)] + "\n");
+  console.log("\n 💡 " + tips[Math.random() * tips.length | 0] + "\n");
   exitOrNot();
+
 }
 
 
 
 mainMenu();
-// randomNotes();
