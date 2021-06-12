@@ -147,91 +147,81 @@ function randomNotes() {
 
 }
 
+/** 產生隨機和弦。 */
 function randomChords() {
 
+  /** 和弦類型列表。 */
+  const chordTypes = ["major", "minor", "augmented", "diminished", "sus2", "maj7", "m7", "7", "7sus", "m7(b5)", "dim7"];
+
   const questions = [{
-      type: 'checkbox',
-      message: '[隨機和弦產生器] 選擇要抽的和弦類型：',
-      name: 'chords',
-      pageSize: 12,
-      choices: ["major", "minor", "augmented", "diminished", "sus2", "maj7", "m7", "7", "7sus", "m7(b5)", "dim7"],
-      default: ["maj7", "m7", "7sus"],
-      validate(answer) {
-        if (answer.length < 1) {
-          return '至少要選一種喔！';
-        }
-        return true;
-      },
+    type: 'checkbox',
+    message: '[隨機和弦產生器] 選擇要抽的和弦類型：',
+    name: 'chords',
+    pageSize: 12,
+    choices: chordTypes,
+    default: ["maj7", "m7", "7sus"],
+    validate(answer) {
+      if (answer.length < 1) {
+        return '至少要選一種喔！';
+      }
+      return true;
     },
-    {
-      type: 'number',
-      message: '要產生幾個和弦？（1-100）',
-      name: 'howmany',
-      default: 8,
-    },
+  },
+  {
+    type: 'number',
+    message: '要產生幾個和弦？（1-100，輸入 0 來取消）',
+    name: 'limit',
+    default: 8,
+    validate(answer) {
+      if (isNaN(answer)) return '數量需要輸入數字喔！';
+      if (answer < 0) return '數量不能是負數喔！';
+      if (answer > 100) return '數量需要小於 100 喔！';
+      return true;
+    }
+  },
   ]
 
   inquirer.prompt(questions).then((answers) => {
     // console.log(answers["notes"][0]);
     // console.log(answers["howmany"]);
-    let types = answers["chords"]; // 使用者選的和弦類型
-    let choices = []; // 納入抽獎的和弦 - 候選名單
-    let result = []; // 最終輸出結果
-    let howmany = answers["howmany"]; // 幾個
+
+    /**
+     * 使用者選的和弦類型。
+     * @type {string[]}
+     */
+    const types = answers["chords"];
+    /**
+     * 產生和弦的數量上限。
+     * @type {number}
+     */
+    const limit = answers["limit"];
+
+    if (limit === 0) return exitOrNot();
 
     // 所有和弦名單
-    let major = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
-    let minor = ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "Bbm", "Bm"];
-    let augmented = ["C+", "Db+", "D+", "Eb+", "E+", "F+", "Gb+", "G+", "Ab+", "A+", "Bb+", "B+"];
-    let diminished = ["Cdim", "C#dim", "Ddim", "D#dim", "Edim", "Fdim", "F#dim", "Gdim", "G#dim", "Adim", "A#dim", "Bdim"];
-    let sus2 = ["Csus2", "Dbsus2", "Dsus2", "Ebsus2", "Esus2", "Fsus2", "F#sus2", "Gsus2", "Absus2", "Asus2", "Bbsus2", "Bsus2"];
-    let maj7 = ["Cmaj7", "Dbmaj7", "Dmaj7", "Ebmaj7", "Emaj7", "Fmaj7", "Gbmaj7", "Gmaj7", "Abmaj7", "Amaj7", "Bbmaj7", "Bmaj7"];
-    let m7 = ["Cm7", "C#m7", "Dm7", "Ebm7", "Em7", "Fm7", "F#m7", "Gm7", "G#m7", "Am7", "Bbm7", "Bm7"];
-    let dom7 = ["C7", "Db7", "D7", "Eb7", "E7", "F7", "F#7", "G7", "Ab7", "A7", "Bb7", "B7"];
-    let dom7sus = ["C7sus", "C#7sus", "D7sus", "Eb7sus", "E7sus", "F7sus", "F#7sus", "G7sus", "Ab7sus", "A7sus", "Bb7sus", "B7sus"];
-    let m7b5 = ["Cm7(b5)", "C#m7(b5)", "Dm7(b5)", "D#m7(b5)", "Em7(b5)", "Fm7(b5)", "F#m7(b5)", "Gm7(b5)", "G#m7(b5)", "Am7(b5)", "A#m7(b5)", "Bm7(b5)"];
-    let dim7 = ["Cdim7", "C#dim7", "Ddim7", "D#dim7", "Edim7", "Fdim7", "F#dim7", "Gdim7", "G#dim7", "Adim7", "A#dim7", "Bdim7"];
+    const chordsList = {
+      major: ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
+      minor: ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "Bbm", "Bm"],
+      augmented: ["C+", "Db+", "D+", "Eb+", "E+", "F+", "Gb+", "G+", "Ab+", "A+", "Bb+", "B+"],
+      diminished: ["Cdim", "C#dim", "Ddim", "D#dim", "Edim", "Fdim", "F#dim", "Gdim", "G#dim", "Adim", "A#dim", "Bdim"],
+      sus2: ["Csus2", "Dbsus2", "Dsus2", "Ebsus2", "Esus2", "Fsus2", "F#sus2", "Gsus2", "Absus2", "Asus2", "Bbsus2", "Bsus2"],
+      maj7: ["Cmaj7", "Dbmaj7", "Dmaj7", "Ebmaj7", "Emaj7", "Fmaj7", "Gbmaj7", "Gmaj7", "Abmaj7", "Amaj7", "Bbmaj7", "Bmaj7"],
+      m7: ["Cm7", "C#m7", "Dm7", "Ebm7", "Em7", "Fm7", "F#m7", "Gm7", "G#m7", "Am7", "Bbm7", "Bm7"],
+      dom7: ["C7", "Db7", "D7", "Eb7", "E7", "F7", "F#7", "G7", "Ab7", "A7", "Bb7", "B7"],
+      dom7sus: ["C7sus", "C#7sus", "D7sus", "Eb7sus", "E7sus", "F7sus", "F#7sus", "G7sus", "Ab7sus", "A7sus", "Bb7sus", "B7sus"],
+      m7b5: ["Cm7(b5)", "C#m7(b5)", "Dm7(b5)", "D#m7(b5)", "Em7(b5)", "Fm7(b5)", "F#m7(b5)", "Gm7(b5)", "G#m7(b5)", "Am7(b5)", "A#m7(b5)", "Bm7(b5)"],
+      dim7: ["Cdim7", "C#dim7", "Ddim7", "D#dim7", "Edim7", "Fdim7", "F#dim7", "Gdim7", "G#dim7", "Adim7", "A#dim7", "Bdim7"],
+    };
 
     // 把選擇的和弦放入候選名單
-    if (types.includes("major")) {
-      choices = choices.concat(major);
-    }
-    if (types.includes("minor")) {
-      choices = choices.concat(minor);
-    }
-    if (types.includes("augmented")) {
-      choices = choices.concat(augmented);
-    }
-    if (types.includes("diminished")) {
-      choices = choices.concat(diminished);
-    }
-    if (types.includes("sus2")) {
-      choices = choices.concat(sus2);
-    }
-    if (types.includes("maj7")) {
-      choices = choices.concat(maj7);
-    }
-    if (types.includes("m7")) {
-      choices = choices.concat(m7);
-    }
-    if (types.includes("7")) {
-      choices = choices.concat(dom7);
-    }
-    if (types.includes("7sus")) {
-      choices = choices.concat(dom7sus);
-    }
-    if (types.includes("m7(b5)")) {
-      choices = choices.concat(m7b5);
-    }
-    if (types.includes("dim7")) {
-      choices = choices.concat(dim7);
-    }
-    //
+    const choices = types.reduce((result, chord) => chordsList[chord]
+      ? (result = result.concat(chordsList[chord]), result)
+      : result);
 
-    for (let i = 0; i < howmany; i++) {
-      result.push(choices[Math.floor(Math.random() * choices.length)])
-    }
-    console.log(result);
+    const randomReault = [...Array(limit)]
+      .map(_ => choices[Math.random() * choices.length | 0]);
+
+    console.log(randomReault);
     exitOrNot();
   });
 
