@@ -236,7 +236,8 @@ function randomChords() {
     // 把選擇的和弦放入候選名單
     const choices = types.reduce((result, chord) => chordsList[chord]
       ? (result = result.concat(chordsList[chord]), result)
-      : result);
+      : result
+      , []);
 
     const randomReault = [...Array(howmany)]
       .map(_ => choices[Math.random() * choices.length | 0]);
