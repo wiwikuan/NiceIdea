@@ -17,6 +17,7 @@ Quick random idea generator for musicians!
 ## 下載（直接可執行檔，binaries）
 
 到這個 Google Drive 連結下載直接可執行檔。（for Mac/Linux/Windows）
+P.S. 目前好像這些執行檔的相容性沒有很好，如果不能跑的話，先用下面的原始碼吧！
 
 https://drive.google.com/drive/folders/1O1IRC5U4AvO8Y-lMudvWtme44Y2NzXeD?usp=sharing
 
