@@ -1,4 +1,4 @@
-name: build
+name: Build & Release
 
 on:
   push:
@@ -13,19 +13,33 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
     steps:
-    - uses: actions/checkout@v2
+    - name: Fetch repo
+      uses: actions/checkout@v2
       with:
         submodules: recursive
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: correct msbuild path
+    - name: Correct msbuild path
       if: matrix.os == 'windows-latest'
       run: npm config set msbuild_path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
-    - run: npm ci
-    - run: npm run build
-    - uses: actions/upload-artifact@v2
+    - name: Install
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Build artifact
+      uses: actions/upload-artifact@v2
       with:
         name: binaries
         path: dist
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+         dist/niceidea-linux
+         dist/niceidea-macos
+         dist/niceidea-win.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
