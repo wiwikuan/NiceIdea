@@ -131,8 +131,8 @@ function randomTempo() {
 
 function randomTitle() {
   let result = around[Math.floor(Math.random() * around.length)];
-  result = result.replace("ooo", noun[Math.floor(Math.random() * noun.length)]);
-  result = result.replace("xxx", noun[Math.floor(Math.random() * noun.length)]);
+  result = result.replace(/ooo/g, noun[Math.floor(Math.random() * noun.length)]);
+  result = result.replace(/xxx/g, noun[Math.floor(Math.random() * noun.length)]);
   document.getElementById("titleResult").innerHTML = "🤔 " + result;
 }
 
