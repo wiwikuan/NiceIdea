@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>NiceIdea 音樂靈感隨機產生器 v1.1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="app.min.css">
+  <style>
+    code {
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-page" data-page="home">
+    <div class="app-topbar">
+      <div class="app-title">主選單</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        <center>NiceIdea 音樂靈感隨機產生器 v1.1 - 網頁版 by Wiwi</center>
+      </div>
+      <div class="app-section">
+        <ul class="app-list">
+          <div class="app-button" data-target="randomNotes">給我一些隨便的【音】</div>
+          <div class="app-button" data-target="randomChords">給我一些隨便的【和弦】</div>
+          <div class="app-button" data-target="randomThings">給我一個隨便的【調號/拍號/調式/速度】</div>
+          <div class="app-button" data-target="randomTitle">給我一個隨便的【歌名】</div>
+          <div class="app-button" data-target="randomIdea">給我一個隨便的【點子】</div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="app-page" data-page="randomNotes">
+    <div class="app-topbar">
+      <div class="app-button left" data-back data-autotitle></div>
+      <div class="app-title">[隨機音符產生器]</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        選擇要抽的音：
+        <ul class="app-list" id="notesList">
+          <li><input type="checkbox" id="note0" name="0" checked=true value="C">C</li>
+          <li><input type="checkbox" id="note1" name="0" checked=true value="Db">Db</li>
+          <li><input type="checkbox" id="note2" name="0" checked=true value="D">D</li>
+          <li><input type="checkbox" id="note3" name="0" checked=true value="Eb">Eb</li>
+          <li><input type="checkbox" id="note4" name="0" checked=true value="E">E</li>
+          <li><input type="checkbox" id="note5" name="0" checked=true value="F">F</li>
+          <li><input type="checkbox" id="note6" name="0" checked=true value="F#">F#</li>
+          <li><input type="checkbox" id="note7" name="0" checked=true value="G">G</li>
+          <li><input type="checkbox" id="note8" name="0" checked=true value="Ab">Ab</li>
+          <li><input type="checkbox" id="note9" name="0" checked=true value="A">A</li>
+          <li><input type="checkbox" id="note10" name="0" checked=true value="Bb">Bb</li>
+          <li><input type="checkbox" id="note11" name="0" checked=true value="B">B</li>
+        </ul>
+      </div>
+      <div class="app-section">
+        要產生幾個音？
+        <input class="app-input" id="howmanyNotes" placeholder="8">
+      </div>
+      <div class="app-section">
+        <div class="app-button red" onclick="randomNotes();">產生！</div>
+      </div>
+      <div class="app-section">
+        <p>結果：</p>
+        <code style="user-select: text; word-wrap: break-word; width: 100%" rows="8" id="notesResult"></code>
+      </div>
+    </div>
+  </div>
+  <div class="app-page" data-page="randomChords">
+    <div class="app-topbar">
+      <div class="app-button left" data-back data-autotitle></div>
+      <div class="app-title">[隨機和弦產生器]</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        選擇要抽的和弦類型：
+        <ul class="app-list" id="chordList">
+          <li><input type="checkbox" id="note0" name="0" value="major">major</li>
+          <li><input type="checkbox" id="note1" name="0" value="minor">minor</li>
+          <li><input type="checkbox" id="note2" name="0" value="augmented">augmented</li>
+          <li><input type="checkbox" id="note3" name="0" value="diminished">diminished</li>
+          <li><input type="checkbox" id="note4" name="0" value="sus2">sus2</li>
+          <li><input type="checkbox" id="note5" name="0" checked=true value="maj7">maj7</li>
+          <li><input type="checkbox" id="note6" name="0" checked=true value="m7">m7</li>
+          <li><input type="checkbox" id="note7" name="0" value="7">7</li>
+          <li><input type="checkbox" id="note8" name="0" checked=true value="7sus">7sus</li>
+          <li><input type="checkbox" id="note9" name="0" value="m7(b5)">m7(b5)</li>
+          <li><input type="checkbox" id="note10" name="0" value="dim7">dim7</li>
+        </ul>
+      </div>
+      <div class="app-section">
+        要產生幾個和弦？
+        <input class="app-input" id="howmanyChords" placeholder="4">
+      </div>
+      <div class="app-section">
+        <div class="app-button red" onclick="randomChords();">產生！</div>
+      </div>
+      <div class="app-section">
+        <p>結果：</p>
+        <code style="user-select: text; word-wrap: break-word; width: 100%" rows="8" id="chordsResult"></code>
+      </div>
+    </div>
+  </div>
+  <div class="app-page" data-page="randomThings">
+    <div class="app-topbar">
+      <div class="app-button left" data-back data-autotitle></div>
+      <div class="app-title">[各種東西產生器]</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        <div class="app-button red" onclick="randomKeys();">給我一個【調號】</div>
+        <center> <code style="user-select: text; word-wrap: break-word; width: 100%" rows="8" id="keysResult"></code> </center>
+      </div>
+      <div class="app-section">
+        <div class="app-button red" onclick="randomMeter();">給我一個【拍號】</div>
+        <center> <code style="user-select: text; word-wrap: break-word; width: 100%" rows="8" id="meterResult"></code></center>
+      </div>
+      <div class="app-section">
+        <div class="app-button red" onclick="randomMode();">給我一個【調式】</div>
+        <center> <code style="user-select: text; word-wrap: break-word; width: 100%" rows="8" id="modeResult"></code></center>
+      </div>
+      <div class="app-section">
+        <div class="app-button red" onclick="randomTempo();">給我一個【速度】</div>
+        <center> <code style="user-select: text; word-wrap: break-word; width: 100%" rows="8" id="tempoResult"></code></center>
+      </div>
+    </div>
+  </div>
+  <div class="app-page" data-page="randomTitle">
+    <div class="app-topbar">
+      <div class="app-button left" data-back data-autotitle></div>
+      <div class="app-title">[歌名產生器]</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        <div class="app-button red" onclick="randomTitle();">來個歌名吧！</div>
+        <center>
+          <code style="font-size: 20px; user-select: text; word-wrap: break-word; width: 100%" rows="8" id="titleResult"></code>
+        </center>
+      </div>
+
+    </div>
+  </div>
+  <div class="app-page" data-page="randomIdea">
+    <div class="app-topbar">
+      <div class="app-button left" data-back data-autotitle></div>
+      <div class="app-title">[歌名產生器]</div>
+    </div>
+    <div class="app-content">
+      <div class="app-section">
+        <div class="app-button red" onclick="randomIdea();">來個點子吧！</div>
+
+          <code style="font-size: 20px; user-select: text; word-wrap: break-word; width: 100%" rows="8" id="ideaResult"></code>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="zepto.js"></script>
+  <script src="app.min.js"></script>
+  <script>
+    App.setDefaultTransition('fade'); // global
+    App.controller('home', function(page) {
+      // put stuff here
+    });
+
+    App.controller('randomNotes', function(page) {
+      // put stuff here
+    });
+
+    try {
+      App.restore();
+    } catch (err) {
+      App.load('home');
+    }
+  </script>
+  <script src="niceidea.js"></script>
+  <script src="data.js"></script>
+</body>
+
+</html>
