@@ -14,15 +14,13 @@ Quick random idea generator for musicians!
 
 原始碼可以用 Node.js 執行，如果你是跟電腦沒有特別熟的一般人，就下載「直接可執行檔」就好。
 
-## 下載（直接可執行檔，binaries）
+## 最新！網頁版完成拉～
 
-到這個 Google Drive 連結下載直接可執行檔。（for Mac/Linux/Windows）
+免安裝！到 https://nicechord.com/NiceIdea/ 就可以直接使用～幾乎所有終端機版的功能都移植完成囉！
 
-P.S. 目前好像這些執行檔的相容性沒有很好，如果不能跑的話，先用下面的原始碼吧！
+網頁版的原始碼放在 ```/web``` 資料夾中
 
-https://drive.google.com/drive/folders/1O1IRC5U4AvO8Y-lMudvWtme44Y2NzXeD?usp=sharing
-
-## 原始碼
+## 終端機版（原始碼）
 
 下載 niceidea.js 與 package.json 到同一資料夾，然後在那個資料夾：
 
